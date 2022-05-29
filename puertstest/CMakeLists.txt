@@ -15,7 +15,7 @@ set (CMAKE_CXX_STANDARD 14)
 set(JS_ENGINE_ROOT ${CMAKE_SOURCE_DIR}/../v8)
 
 include_directories(
-    ${JS_ENGINE_ROOT}/Inc
+    ${JS_ENGINE_ROOT}/headers
     puerts/include
 )
 
@@ -59,13 +59,14 @@ elseif ( APPLE )
     endif ( )
 elseif (UNIX)
     target_link_libraries(helloworld
-        ${JS_ENGINE_ROOT}/Lib/Linux/lib${LIB_NAME}.a
+        ${JS_ENGINE_ROOT}/linux_x86-64/libv8.so
+        ${JS_ENGINE_ROOT}/linux_x86-64/libv8_libplatform.so
 	    pthread
     )
     target_compile_definitions (helloworld PRIVATE PLATFORM_LINUX)
-    set(CMAKE_CXX_COMPILER "clang++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+    set(CMAKE_CXX_COMPILER "g++")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
 else ()
     if ( JS_ENGINE STREQUAL "v8")
         set(LIBS_NEEDED winmm.lib dbghelp.lib shlwapi.lib)
@@ -77,7 +78,8 @@ else ()
         )
     else ()
         target_link_libraries(helloworld
-            ${JS_ENGINE_ROOT}/Lib/Win64/${LIB_NAME}.lib
+            ${JS_ENGINE_ROOT}/windows/v8.dll.lib
+            ${JS_ENGINE_ROOT}/windows/v8_libplatform.dll.lib
             ${LIBS_NEEDED}
         )
     endif ()

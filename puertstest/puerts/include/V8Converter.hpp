@@ -85,9 +85,9 @@ V8_INLINE v8::Local<v8::Object> GetHolder(const v8::FunctionCallbackInfo<v8::Val
     return info.Holder();
 }
 
-V8_INLINE void ThrowException(v8::Local<v8::Context> context, const char* msg)
+V8_INLINE void ThrowException(const v8::FunctionCallbackInfo<v8::Value>& info, const char* msg)
 {
-    v8::Isolate* isolate = context->GetIsolate();
+    v8::Isolate* isolate = info.GetIsolate();
     isolate->ThrowException(
         v8::Exception::Error(v8::String::NewFromUtf8(isolate, msg, v8::NewStringType::kNormal).ToLocalChecked()));
 }
@@ -95,6 +95,12 @@ V8_INLINE void ThrowException(v8::Local<v8::Context> context, const char* msg)
 V8_INLINE void SetReturn(const v8::FunctionCallbackInfo<v8::Value>& info, v8::Local<v8::Value> value)
 {
     info.GetReturnValue().Set(value);
+}
+
+template <typename T1, typename T2>
+V8_INLINE void LinkOuter(v8::Local<v8::Context> Context, v8::Local<v8::Value> Outer, v8::Local<v8::Value> Inner)
+{
+    LinkOuterImpl(Context, Outer, Inner);
 }
 
 V8_INLINE void UpdateRefValue(v8::Local<v8::Context> context, v8::Local<v8::Value> holder, v8::Local<v8::Value> value)
