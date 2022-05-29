@@ -15,7 +15,7 @@ set (CMAKE_CXX_STANDARD 14)
 set(JS_ENGINE_ROOT ${CMAKE_SOURCE_DIR}/../v8)
 
 include_directories(
-    ${JS_ENGINE_ROOT}/Inc
+    ${JS_ENGINE_ROOT}/headers
 )
 
 set ( SRC hello-world.cc)
@@ -83,8 +83,8 @@ else ()
         )
     else ()
         target_link_libraries(helloworld
-            ${JS_ENGINE_ROOT}/Lib/windows/v8.dll.lib
-            ${JS_ENGINE_ROOT}/Lib/windows/v8_libplatform.dll.lib
+            ${JS_ENGINE_ROOT}/windows/v8.dll.lib
+            ${JS_ENGINE_ROOT}/windows/v8_libplatform.dll.lib
             ${LIBS_NEEDED}
         )
     endif ()
