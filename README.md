@@ -4,7 +4,7 @@
 
 - hello_world
 - v8
-- vi/headers
+- v8/headers
 - v8/windows
 - v8/linux_x86-64
 - README.md
